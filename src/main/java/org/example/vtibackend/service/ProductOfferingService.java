@@ -1,6 +1,8 @@
 package org.example.vtibackend.service;
 
 import org.example.vtibackend.common.StatusEnum;
+import org.example.vtibackend.dto.request.ProductOfferingRequest;
+import org.example.vtibackend.dto.response.ProductOfferingResponse;
 import org.example.vtibackend.entity.ProductOffering;
 
 import java.util.List;
@@ -13,7 +15,7 @@ public interface ProductOfferingService {
 
     List<ProductOffering> findByNameAndColor(String name, String color);
 
-    ProductOffering addProduct(ProductOffering productOffering);
+    ProductOfferingResponse addProduct(ProductOfferingRequest productOffering);
 
     Optional<ProductOffering> updateProduct(ProductOffering productOffering);
 

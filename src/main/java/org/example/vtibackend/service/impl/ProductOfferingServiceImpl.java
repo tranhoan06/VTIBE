@@ -1,6 +1,8 @@
 package org.example.vtibackend.service.impl;
 
 import org.example.vtibackend.common.StatusEnum;
+import org.example.vtibackend.dto.request.ProductOfferingRequest;
+import org.example.vtibackend.dto.response.ProductOfferingResponse;
 import org.example.vtibackend.entity.ProductOffering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +44,24 @@ public class ProductOfferingServiceImpl implements ProductOfferingService {
     }
 
     @Override
-    public ProductOffering addProduct(ProductOffering productOffering) {
-        return productOfferingRepository.save(productOffering);
+    public ProductOfferingResponse addProduct(ProductOfferingRequest productOfferingRequest) {
+
+        ProductOffering product = new ProductOffering();
+
+        product.setName(productOfferingRequest.getName());
+        product.setPrice(productOfferingRequest.getPrice());
+        product.setColor(productOfferingRequest.getColor());
+        product.setStatus(StatusEnum.ACTIVE);
+
+        ProductOffering saved = productOfferingRepository.save(product);
+
+        return new ProductOfferingResponse(
+                saved.getId(),
+                saved.getName(),
+                saved.getPrice(),
+                saved.getColor(),
+                saved.getStatus()
+        );
     }
 
     @Override

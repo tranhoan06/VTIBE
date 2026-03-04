@@ -1,8 +1,12 @@
 package org.example.vtibackend.controller;
 
+import jakarta.validation.Valid;
 import org.example.vtibackend.common.StatusEnum;
+import org.example.vtibackend.dto.request.ProductOfferingRequest;
+import org.example.vtibackend.dto.response.ProductOfferingResponse;
 import org.example.vtibackend.entity.ProductOffering;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.vtibackend.service.ProductOfferingService;
@@ -35,12 +39,12 @@ public class ProductOfferingController {
     }
 
     @PostMapping("/addProduct")
-    private ResponseEntity<ProductOffering> addProduct(@RequestBody ProductOffering productOffering) {
-        if (productOffering.getId() != null) {
-            throw new RuntimeException("Khong duoc truyen id vao");
-        }
-        ProductOffering newProduct = productOfferingService.addProduct(productOffering);
-        return ResponseEntity.ok(newProduct);
+    public ResponseEntity<ProductOfferingResponse> addProduct(
+            @Valid @RequestBody ProductOfferingRequest request) {
+
+        ProductOfferingResponse response = productOfferingService.addProduct(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/updateProduct")
