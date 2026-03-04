@@ -1,11 +1,13 @@
 package org.example.vtibackend.service.impl;
 
+import org.example.vtibackend.common.StatusEnum;
 import org.example.vtibackend.entity.ProductOffering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.vtibackend.repository.ProductOfferingRepository;
 import org.example.vtibackend.service.ProductOfferingService;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +19,7 @@ public class ProductOfferingServiceImpl implements ProductOfferingService {
     @Override
     public ProductOffering getById(Long id) {
         Optional<ProductOffering> productOffering = productOfferingRepository.findById(id);
-        if(productOffering.isEmpty()) {
+        if (productOffering.isEmpty()) {
             throw new RuntimeException("Khong tim thay product");
         } else {
             return productOffering.get();
@@ -37,6 +39,41 @@ public class ProductOfferingServiceImpl implements ProductOfferingService {
         }
 
         return productOfferingRepository.findByNameAndColor(name, color);
+    }
+
+    @Override
+    public ProductOffering addProduct(ProductOffering productOffering) {
+        return productOfferingRepository.save(productOffering);
+    }
+
+    @Override
+    public Optional<ProductOffering> updateProduct(ProductOffering productOffering) {
+
+        ProductOffering product = productOfferingRepository
+                .findById(productOffering.getId())
+                .orElseThrow(() -> new RuntimeException("Khong tim thay san pham can cap nhat"));
+
+        product.setName(productOffering.getName());
+
+        product.setColor(productOffering.getColor());
+
+        product.setPrice(productOffering.getPrice());
+
+        product.setStatus(productOffering.getStatus());
+
+        productOfferingRepository.save(product);
+
+        return Optional.of(product);
+    }
+
+    @Override
+    public List<ProductOffering> getFIlter(StatusEnum status, Long price) {
+        return productOfferingRepository.getFilter(status, price);
+    }
+
+    @Override
+    public List<ProductOffering> getOfferingDetailGreaterThanTwo() {
+        return productOfferingRepository.getOfferingDetailGreaterThanTwo();
     }
 
 

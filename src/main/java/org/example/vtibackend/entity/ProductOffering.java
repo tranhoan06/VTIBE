@@ -1,17 +1,14 @@
 package org.example.vtibackend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import org.example.vtibackend.common.StatusEnum;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "product_offering")
@@ -22,6 +19,7 @@ import java.util.Date;
 public class ProductOffering implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", length = 255, nullable = false)
@@ -32,6 +30,18 @@ public class ProductOffering implements Serializable {
 
     @Column(name = "color")
     private String color;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
+
+    @OneToMany(mappedBy = "productOfferings")
+    private List<ProductOfferingDetail> productOfferingDetail;
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @ManyToOne
+//    @JoinColumn(name = "detail_id", referencedColumnName = "id")
+//    private ProductDetail productDetail;
 
     @Override
     public String toString() {
