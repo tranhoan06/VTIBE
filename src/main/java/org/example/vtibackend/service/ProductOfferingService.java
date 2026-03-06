@@ -22,4 +22,6 @@ public interface ProductOfferingService {
     List<ProductOffering> getFIlter(StatusEnum status, Long price);
 
     List<ProductOffering> getOfferingDetailGreaterThanTwo();
+
+    List<ProductOffering> filter(String name, Long minPrice, Long maxPrice, String color, StatusEnum status);
 }

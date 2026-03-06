@@ -63,4 +63,14 @@ public class ProductOfferingController {
         List<ProductOffering> productOfferings = productOfferingService.getOfferingDetailGreaterThanTwo();
         return ResponseEntity.ok(productOfferings);
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<ProductOffering>> filterProductOffering(@RequestParam(name = "name", required = false) String name,
+                                                                       @RequestParam(name = "minPrice", required = false) Long minPrice,
+                                                                       @RequestParam(name = "maxPrice", required = false) Long maxPrice,
+                                                                       @RequestParam(name = "color", required = false) String color,
+                                                                       @RequestParam(name = "status", required = false) StatusEnum status) {
+        List<ProductOffering> productOfferingList = productOfferingService.filter(name, minPrice, maxPrice, color, status);
+        return ResponseEntity.ok(productOfferingList);
+    }
 }
